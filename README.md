@@ -70,7 +70,7 @@ Majula 是一个基于 Go 语言的 Eino 框架开发的 AI 服务，专注于�
   ```json
   [
     {
-      "result": "核查结果 (例如: TRUE, FALSE, FAILED)",
+      "result": "核查结果 (例如: 真实, 虚假, 无法核实)",
       "sources": ["来源1", "来源2"],
       "reason": "核查理由"
     }
@@ -80,5 +80,4 @@ Majula 是一个基于 Go 语言的 Eino 框架开发的 AI 服务，专注于�
 ### MCP API
 
 - **URL**: `/mcp`
-- **方法**: `GET`
 - **描述**: 暴露 MCP 服务器的元数据和工具定义。您可以通过访问此端点来了解 Majula 提供的 MCP 能力。
