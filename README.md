@@ -28,7 +28,27 @@ Majula 是一个基于 Go 语言的 Eino 框架开发的 AI 服务，专注于�
 - Go 1.18+
 - Docker (可选，用于部署)
 
-### 步骤
+### 方式一 Docker 部署（推荐）
+
+1. **克隆仓库**:
+   ```bash
+   git clone https://github.com/Fl0rencess720/Majula.git
+   cd Majula
+   ```
+2. **配置环境变量**:
+   复制 `.env.example` 文件并重命名为 `.env`，然后根据您的需求修改其中的配置。
+   ```bash
+   cp configs/.env.example configs/.env
+   ```
+   请确保配置了必要的 AI 模型 API 密钥等信息。
+3. **部署并运行**
+   ```bash
+   docker-compose up -d
+   ```
+4. **访问**
+
+    服务默认运行在 `http://localhost:8080` (具体端口可根据 `configs/config.yaml`和`Dockerfile`及`docker-compose.yml`配置而定)。
+### 方式二 直接运行
 
 1. **克隆仓库**:
    ```bash
