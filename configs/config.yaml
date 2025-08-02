@@ -1,0 +1,16 @@
+server:
+  http:
+    addr: :8000
+    timeout: 900s
+
+trace:
+  otel_state: enable
+  sample_ration: 1.0
+
+pyroscope:
+  state: enable
+
+project:
+  mode: dev
+  
+service:
