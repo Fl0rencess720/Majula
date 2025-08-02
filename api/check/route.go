@@ -6,5 +6,5 @@ import (
 )
 
 func InitApi(group *gin.RouterGroup, cu *controllers.CheckingUsecase) {
-	group.GET("/checking", cu.Check)
+	group.POST("/checking", cu.Check)
 }

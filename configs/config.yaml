@@ -12,5 +12,9 @@ pyroscope:
 
 project:
   mode: dev
+
+chatmodel:
+  model: gpt-4o-mini
+  baseURL: https://api.openai.com/v1
   
 service:

@@ -6,6 +6,7 @@ import (
 	"github.com/Fl0rencess720/Majula/api"
 	"github.com/Fl0rencess720/Majula/internal/conf"
 	"github.com/Fl0rencess720/Majula/internal/controllers"
+	"github.com/Fl0rencess720/Majula/internal/data"
 	"github.com/Fl0rencess720/Majula/internal/pkgs/logging"
 	"github.com/Fl0rencess720/Majula/internal/pkgs/profiling"
 	"github.com/Fl0rencess720/Majula/internal/pkgs/tracing"
@@ -44,8 +45,8 @@ func main() {
 }
 
 func newSrv() *gin.Engine {
-
-	checkingUsecase := controllers.NewCheckingUsecase()
+	checkingRepo := data.NewCheckingRepo()
+	checkingUsecase := controllers.NewCheckingUsecase(checkingRepo)
 
 	e := api.Init(checkingUsecase)
 	return e
