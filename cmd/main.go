@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/Fl0rencess720/Majula/api"
+	"github.com/Fl0rencess720/Majula/api/mcp"
 	"github.com/Fl0rencess720/Majula/internal/conf"
 	"github.com/Fl0rencess720/Majula/internal/controllers"
 	"github.com/Fl0rencess720/Majula/internal/data"
@@ -52,6 +53,7 @@ func main() {
 	callbacks.AppendGlobalHandlers(handler)
 
 	e := newSrv()
+	mcp.Init(e)
 	e.Run(viper.GetString("server.http.addr"))
 }
 

@@ -3,6 +3,7 @@ module github.com/Fl0rencess720/Majula
 go 1.24.1
 
 require (
+	github.com/ckanthony/gin-mcp v0.0.0-20250417182845-f4b2a61e501f
 	github.com/cloudwego/eino v0.4.1
 	github.com/cloudwego/eino-ext/callbacks/cozeloop v0.1.2
 	github.com/cloudwego/eino-ext/components/model/openai v0.0.0-20250801075622-6721dae36fe9

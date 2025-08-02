@@ -21,6 +21,8 @@ github.com/bytedance/sonic/loader v0.2.4/go.mod h1:N8A3vUdtUebEY2/VQC0MyhYeKUFos
 github.com/cenkalti/backoff/v5 v5.0.2 h1:rIfFVxEf1QsI7E1ZHfp/B4DF/6QBAUhmgkxc0H7Zss8=
 github.com/cenkalti/backoff/v5 v5.0.2/go.mod h1:rkhZdG3JZukswDf7f0cwqPNk4K0sa+F97BxZthm/crw=
 github.com/certifi/gocertifi v0.0.0-20190105021004-abcd57078448/go.mod h1:GJKEexRPVJrBSOjoqN5VNOIKJ5Q3RViH6eu3puDRwx4=
+github.com/ckanthony/gin-mcp v0.0.0-20250417182845-f4b2a61e501f h1:jVeOSu6scykug6UMayYqrkImS83rRWcR+74uON39F3I=
+github.com/ckanthony/gin-mcp v0.0.0-20250417182845-f4b2a61e501f/go.mod h1:cjtnWrLZaxokmHc2aBIB7RUzOZ91wzLk8SCtCGX2zjM=
 github.com/cloudwego/base64x v0.1.5 h1:XPciSp1xaq2VCSt6lF0phncD4koWyULpl5bUxbfCyP4=
 github.com/cloudwego/base64x v0.1.5/go.mod h1:0zlkT4Wn5C6NdauXdJRhSKRlJvmclQ1hhJgA0rcu/8w=
 github.com/cloudwego/eino v0.4.1 h1:Jy9KWpCvd+Z75oIynhHsT9dEECUuCW8IPZlVjHgVu9s=
