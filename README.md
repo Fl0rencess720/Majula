@@ -43,7 +43,7 @@ Majula 是一个基于 Go 语言的 Eino 框架开发的 AI 服务，专注于�
    请确保配置了必要的 AI 模型 API 密钥等信息。
 3. **部署并运行**
    ```bash
-   docker-compose up -d
+   make deploy
    ```
 4. **访问**
 
