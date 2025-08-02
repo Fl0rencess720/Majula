@@ -10,6 +10,9 @@ import (
 	"github.com/Fl0rencess720/Majula/internal/pkgs/logging"
 	"github.com/Fl0rencess720/Majula/internal/pkgs/profiling"
 	"github.com/Fl0rencess720/Majula/internal/pkgs/tracing"
+	ccb "github.com/cloudwego/eino-ext/callbacks/cozeloop"
+	"github.com/cloudwego/eino/callbacks"
+	"github.com/coze-dev/cozeloop-go"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
@@ -25,10 +28,11 @@ func init() {
 	logging.Init()
 
 	profiling.InitPyroscope(Name)
+
 }
 
 func main() {
-
+	ctx := context.Background()
 	tp, err := tracing.SetTraceProvider(Name)
 	if err != nil {
 		zap.L().Panic("tracing init err: %s", zap.Error(err))
@@ -39,8 +43,15 @@ func main() {
 		}
 	}()
 
-	e := newSrv()
+	client, err := cozeloop.NewClient()
+	if err != nil {
+		panic(err)
+	}
+	defer client.Close(ctx)
+	handler := ccb.NewLoopHandler(client)
+	callbacks.AppendGlobalHandlers(handler)
 
+	e := newSrv()
 	e.Run(viper.GetString("server.http.addr"))
 }
 
