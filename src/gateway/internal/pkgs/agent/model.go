@@ -18,6 +18,7 @@ func newChatModel(ctx context.Context) (model.ToolCallingChatModel, error) {
 		},
 		BaseURL: viper.GetString("chatmodel.baseURL"),
 	})
+
 	if err != nil {
 		return nil, err
 	}

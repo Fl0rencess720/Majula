@@ -3,9 +3,9 @@ package api
 import (
 	"time"
 
-	"github.com/Fl0rencess720/Majula/api/check"
-	"github.com/Fl0rencess720/Majula/internal/controllers"
-	"github.com/Fl0rencess720/Majula/internal/middlewares"
+	"github.com/Fl0rencess720/Majula/src/gateway/api/check"
+	"github.com/Fl0rencess720/Majula/src/gateway/internal/controllers"
+	"github.com/Fl0rencess720/Majula/src/gateway/internal/middlewares"
 	ginZap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
