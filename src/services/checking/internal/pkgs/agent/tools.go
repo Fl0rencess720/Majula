@@ -10,8 +10,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-func bingSearchTool(ctx context.Context) ([]tool.BaseTool, error) {
-	cli, err := client.NewSSEMCPClient(viper.GetString("MCP_BING_SEARCH_URL"))
+func tavilySearchTool(ctx context.Context) ([]tool.BaseTool, error) {
+	cli, err := client.NewSSEMCPClient(viper.GetString("tavily.URL") + viper.GetString("TAVILY_API_KEY"))
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +39,7 @@ func bingSearchTool(ctx context.Context) ([]tool.BaseTool, error) {
 
 func getCheckTools(ctx context.Context) ([]tool.BaseTool, error) {
 	tools := []tool.BaseTool{}
-	bingTools, err := bingSearchTool(ctx)
+	bingTools, err := tavilySearchTool(ctx)
 	if err != nil {
 		return nil, err
 	}
