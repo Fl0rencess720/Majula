@@ -17,4 +17,7 @@ chatmodel:
   model: gpt-4o-mini
   baseURL: https://api.openai.com/v1
   
+tavily:
+  URL: https://mcp.tavily.com/mcp/?tavilyApiKey=
+  
 service:
