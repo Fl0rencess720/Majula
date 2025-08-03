@@ -72,19 +72,6 @@ func (c *ConsulClient) DeregisterService(serviceID string) error {
 	return c.client.Agent().ServiceDeregister(serviceID)
 }
 
-func (c *ConsulClient) DiscoverService(serviceName string) ([]string, error) {
-	services, _, err := c.client.Health().Service(serviceName, "", true, nil)
-	if err != nil {
-		return nil, err
-	}
-	var addresses []string
-	for _, service := range services {
-		address := fmt.Sprintf("%s:%d", service.Service.Address, service.Service.Port)
-		addresses = append(addresses, address)
-	}
-	return addresses, nil
-}
-
 func getLocalIP() (string, error) {
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
