@@ -18,3 +18,4 @@ chatmodel:
   baseURL: https://api.openai.com/v1
   
 service:
+  checking: Majula.Service.Checking

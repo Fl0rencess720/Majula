@@ -47,16 +47,15 @@ func (c *ConsulClient) RegisterService(serviceName string) (string, error) {
 }
 
 func (c *ConsulClient) SetTTLHealthCheck() {
-	go func() {
-		ticker := time.NewTicker(5 * time.Second)
-		defer ticker.Stop()
 
-		for range ticker.C {
-			if err := c.passTTL(c.serviceID, "Service is healthy"); err != nil {
-				zap.L().Error(err.Error())
-			}
+	ticker := time.NewTicker(5 * time.Second)
+	defer ticker.Stop()
+
+	for range ticker.C {
+		if err := c.passTTL(c.serviceID, "Service is healthy"); err != nil {
+			zap.L().Error(err.Error())
 		}
-	}()
+	}
 
 }
 

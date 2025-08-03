@@ -3,9 +3,9 @@ package api
 import (
 	"time"
 
-	"github.com/Fl0rencess720/Majula/src/gateway/api/check"
 	"github.com/Fl0rencess720/Majula/src/gateway/internal/controllers"
 	"github.com/Fl0rencess720/Majula/src/gateway/internal/middlewares"
+	"github.com/Fl0rencess720/Majula/src/gateway/service/check"
 	ginZap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -19,5 +19,6 @@ func Init(cu *controllers.CheckingUsecase) *gin.Engine {
 	{
 		check.InitApi(app, cu)
 	}
+
 	return e
 }
