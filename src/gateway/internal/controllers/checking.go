@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/Fl0rencess720/Majula/src/gateway/internal/models"
-	"github.com/Fl0rencess720/Majula/src/gateway/internal/pkgs/agent"
+	pb "github.com/Fl0rencess720/Majula/src/idl/checking"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -13,11 +13,12 @@ type CheckingRepo interface {
 }
 
 type CheckingUsecase struct {
-	repo CheckingRepo
+	repo           CheckingRepo
+	checkingClient pb.FactCheckingClient
 }
 
-func NewCheckingUsecase(repo CheckingRepo) *CheckingUsecase {
-	return &CheckingUsecase{repo: repo}
+func NewCheckingUsecase(repo CheckingRepo, cc pb.FactCheckingClient) *CheckingUsecase {
+	return &CheckingUsecase{repo: repo, checkingClient: cc}
 }
 
 func (u *CheckingUsecase) Check(c *gin.Context) {
@@ -28,18 +29,20 @@ func (u *CheckingUsecase) Check(c *gin.Context) {
 		return
 	}
 	ctx := context.Background()
-
-	agent, err := agent.NewCheckingAgent(ctx)
+	result, err := u.checkingClient.Check(ctx, &pb.CheckRequest{Text: req.Text})
 	if err != nil {
-		zap.L().Error("NewCheckingAgent failed:", zap.Error(err))
+		zap.L().Error("check failed:", zap.Error(err))
 		ErrorResponse(c, ServerError)
 		return
 	}
-	result, err := agent.Run(ctx, req.Text)
-	if err != nil {
-		zap.L().Error("CheckingAgent failed:", zap.Error(err))
-		ErrorResponse(c, ServerError)
-		return
+	resp := []models.CheckingResp{}
+	for _, e := range result.Results {
+		resp = append(resp, models.CheckingResp{
+			OriginalText: e.OriginalText,
+			Sources:      e.Sources,
+			Result:       e.Result,
+			Reason:       e.Reason,
+		})
 	}
-	SuccessResponse(c, result)
+	SuccessResponse(c, resp)
 }

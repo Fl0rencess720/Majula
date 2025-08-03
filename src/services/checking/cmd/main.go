@@ -7,6 +7,8 @@ import (
 	"github.com/Fl0rencess720/Majula/src/common/logging"
 	"github.com/Fl0rencess720/Majula/src/common/profiling"
 	"github.com/Fl0rencess720/Majula/src/common/tracing"
+	"github.com/Fl0rencess720/Majula/src/services/checking/internal/biz"
+	"github.com/Fl0rencess720/Majula/src/services/checking/internal/data"
 	"github.com/Fl0rencess720/Majula/src/services/checking/internal/service"
 
 	ccb "github.com/cloudwego/eino-ext/callbacks/cozeloop"
@@ -48,11 +50,10 @@ func main() {
 	handler := ccb.NewLoopHandler(client)
 	callbacks.AppendGlobalHandlers(handler)
 
-	grpcService, err := service.NewCheckingService(Name)
+	grpcService, err := newSrv()
 	if err != nil {
-		zap.L().Panic("Failed to create gRPC service", zap.Error(err))
+		zap.L().Panic("service init err: %s", zap.Error(err))
 	}
-
 	if err := grpcService.Start(); err != nil {
 		zap.L().Panic("Failed to start service", zap.Error(err))
 	}
@@ -64,4 +65,14 @@ func main() {
 	}
 
 	zap.L().Info("Server exit")
+}
+
+func newSrv() (*service.CheckingService, error) {
+	checkingRepo := data.NewCheckingRepo()
+	checkingUsecase := biz.NewCheckingUsecase(checkingRepo)
+	grpcService, err := service.NewCheckingService(Name, checkingUsecase)
+	if err != nil {
+		return nil, err
+	}
+	return grpcService, nil
 }

@@ -13,11 +13,10 @@ import (
 )
 
 type checkingRepo struct {
-	checkingClient pb.FactCheckingClient
 }
 
-func NewCheckingRepo(cc pb.FactCheckingClient) *checkingRepo {
-	return &checkingRepo{checkingClient: cc}
+func NewCheckingRepo() *checkingRepo {
+	return &checkingRepo{}
 }
 
 func NewCheckingClient(serviceName string) (pb.FactCheckingClient, error) {

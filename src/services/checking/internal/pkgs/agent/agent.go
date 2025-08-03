@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"sync"
 
-	"github.com/Fl0rencess720/Majula/src/gateway/internal/models"
+	"github.com/Fl0rencess720/Majula/src/services/checking/internal/models"
 	"github.com/cloudwego/eino/compose"
 	"github.com/cloudwego/eino/schema"
 )
@@ -58,7 +58,7 @@ func NewCheckingAgent(ctx context.Context) (*checkingAgent, error) {
 	return &checkingAgent{factRunnable: fr, checkRunnable: cr}, nil
 }
 
-func (a *checkingAgent) Run(ctx context.Context, text string) ([]models.CheckingResp, error) {
+func (a *checkingAgent) Run(ctx context.Context, text string) ([]models.CheckingResult, error) {
 	factOutput, err := a.factRunnable.Invoke(ctx, map[string]any{
 		"text": text,
 	})
@@ -69,8 +69,8 @@ func (a *checkingAgent) Run(ctx context.Context, text string) ([]models.Checking
 	if err := json.Unmarshal([]byte(factOutput.Content), &facts); err != nil {
 		return nil, err
 	}
-	results := []models.CheckingResp{}
-	resultChan := make(chan models.CheckingResp, len(facts.FactChecks))
+	results := []models.CheckingResult{}
+	resultChan := make(chan models.CheckingResult, len(facts.FactChecks))
 	var wg sync.WaitGroup
 	for _, factCheck := range facts.FactChecks {
 		wg.Add(1)
@@ -80,12 +80,12 @@ func (a *checkingAgent) Run(ctx context.Context, text string) ([]models.Checking
 				"input": factCheck,
 			})
 			if err != nil {
-				resultChan <- models.CheckingResp{Reason: err.Error()}
+				resultChan <- models.CheckingResult{Reason: err.Error()}
 				return
 			}
-			checkingResult := models.CheckingResp{}
+			checkingResult := models.CheckingResult{}
 			if err := json.Unmarshal([]byte(checkOutput.Content), &checkingResult); err != nil {
-				resultChan <- models.CheckingResp{OriginalText: factCheck.Excerpt, Reason: err.Error()}
+				resultChan <- models.CheckingResult{OriginalText: factCheck.Excerpt, Reason: err.Error()}
 				return
 			}
 			checkingResult.OriginalText = factCheck.Excerpt

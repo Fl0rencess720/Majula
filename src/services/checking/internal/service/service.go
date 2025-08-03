@@ -9,6 +9,7 @@ import (
 
 	"github.com/Fl0rencess720/Majula/src/common/registry"
 	pb "github.com/Fl0rencess720/Majula/src/idl/checking"
+	"github.com/Fl0rencess720/Majula/src/services/checking/internal/biz"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
@@ -21,9 +22,11 @@ type CheckingService struct {
 	registry    *registry.ConsulClient
 	server      *grpc.Server
 	listener    net.Listener
+
+	cu *biz.CheckingUsecase
 }
 
-func NewCheckingService(serviceName string) (*CheckingService, error) {
+func NewCheckingService(serviceName string, cu *biz.CheckingUsecase) (*CheckingService, error) {
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", viper.GetInt("server.grpc.port")))
 	if err != nil {
 		return nil, fmt.Errorf("failed to listen: %w", err)
@@ -35,7 +38,8 @@ func NewCheckingService(serviceName string) (*CheckingService, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to create registry: %w", err)
 	}
-	return &CheckingService{serviceName: serviceName, registry: registry, server: server, listener: lis}, nil
+	return &CheckingService{serviceName: serviceName, registry: registry, server: server, listener: lis,
+		cu: cu}, nil
 }
 
 func (s *CheckingService) Start() error {

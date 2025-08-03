@@ -26,7 +26,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type FactCheckingClient interface {
-	Check(ctx context.Context, in *CheckRequest, opts ...grpc.CallOption) (*CheckResponse, error)
+	Check(ctx context.Context, in *CheckRequest, opts ...grpc.CallOption) (*CheckListResponse, error)
 }
 
 type factCheckingClient struct {
@@ -37,9 +37,9 @@ func NewFactCheckingClient(cc grpc.ClientConnInterface) FactCheckingClient {
 	return &factCheckingClient{cc}
 }
 
-func (c *factCheckingClient) Check(ctx context.Context, in *CheckRequest, opts ...grpc.CallOption) (*CheckResponse, error) {
+func (c *factCheckingClient) Check(ctx context.Context, in *CheckRequest, opts ...grpc.CallOption) (*CheckListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CheckResponse)
+	out := new(CheckListResponse)
 	err := c.cc.Invoke(ctx, FactChecking_Check_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -51,7 +51,7 @@ func (c *factCheckingClient) Check(ctx context.Context, in *CheckRequest, opts .
 // All implementations must embed UnimplementedFactCheckingServer
 // for forward compatibility.
 type FactCheckingServer interface {
-	Check(context.Context, *CheckRequest) (*CheckResponse, error)
+	Check(context.Context, *CheckRequest) (*CheckListResponse, error)
 	mustEmbedUnimplementedFactCheckingServer()
 }
 
@@ -62,7 +62,7 @@ type FactCheckingServer interface {
 // pointer dereference when methods are called.
 type UnimplementedFactCheckingServer struct{}
 
-func (UnimplementedFactCheckingServer) Check(context.Context, *CheckRequest) (*CheckResponse, error) {
+func (UnimplementedFactCheckingServer) Check(context.Context, *CheckRequest) (*CheckListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Check not implemented")
 }
 func (UnimplementedFactCheckingServer) mustEmbedUnimplementedFactCheckingServer() {}

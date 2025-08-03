@@ -73,8 +73,8 @@ func newSrv() (*gin.Engine, error) {
 	if err != nil {
 		return nil, err
 	}
-	checkingRepo := data.NewCheckingRepo(cc)
-	checkingUsecase := controllers.NewCheckingUsecase(checkingRepo)
+	checkingRepo := data.NewCheckingRepo()
+	checkingUsecase := controllers.NewCheckingUsecase(checkingRepo, cc)
 
 	serviceID, err := consulClient.RegisterService(Name)
 	if err != nil {
