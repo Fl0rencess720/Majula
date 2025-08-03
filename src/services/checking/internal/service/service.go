@@ -45,7 +45,7 @@ func (s *CheckingService) Start() error {
 	}
 	s.serviceID = serviceID
 
-	s.registry.SetTTLHealthCheck()
+	go s.registry.SetTTLHealthCheck()
 
 	go func() {
 		if err := s.server.Serve(s.listener); err != nil {
