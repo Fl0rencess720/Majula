@@ -7,21 +7,16 @@ import (
 	"github.com/Fl0rencess720/Majula/src/common/logging"
 	"github.com/Fl0rencess720/Majula/src/common/profiling"
 	"github.com/Fl0rencess720/Majula/src/common/tracing"
-	"github.com/Fl0rencess720/Majula/src/gateway/api"
-	"github.com/Fl0rencess720/Majula/src/gateway/api/mcp"
-	"github.com/Fl0rencess720/Majula/src/gateway/internal/controllers"
-	"github.com/Fl0rencess720/Majula/src/gateway/internal/data"
+	"github.com/Fl0rencess720/Majula/src/services/checking/internal/service"
 
 	ccb "github.com/cloudwego/eino-ext/callbacks/cozeloop"
 	"github.com/cloudwego/eino/callbacks"
 	"github.com/coze-dev/cozeloop-go"
-	"github.com/gin-gonic/gin"
-	"github.com/spf13/viper"
 	"go.uber.org/zap"
 )
 
 var (
-	Name = "Majula.Gateway"
+	Name = "Majula.Service.Checking"
 )
 
 func init() {
@@ -47,21 +42,26 @@ func main() {
 
 	client, err := cozeloop.NewClient()
 	if err != nil {
-		panic(err)
+		zap.L().Panic("cozeloop init err: %s", zap.Error(err))
 	}
 	defer client.Close(ctx)
 	handler := ccb.NewLoopHandler(client)
 	callbacks.AppendGlobalHandlers(handler)
 
-	e := newSrv()
-	mcp.Init(e)
-	e.Run(viper.GetString("server.http.addr"))
-}
+	grpcService, err := service.NewCheckingService(Name)
+	if err != nil {
+		zap.L().Panic("Failed to create gRPC service", zap.Error(err))
+	}
 
-func newSrv() *gin.Engine {
-	checkingRepo := data.NewCheckingRepo()
-	checkingUsecase := controllers.NewCheckingUsecase(checkingRepo)
+	if err := grpcService.Start(); err != nil {
+		zap.L().Panic("Failed to start service", zap.Error(err))
+	}
 
-	e := api.Init(checkingUsecase)
-	return e
+	grpcService.WaitForShutdown()
+
+	if err := grpcService.Stop(); err != nil {
+		zap.L().Error("Error stopping service", zap.Error(err))
+	}
+
+	zap.L().Info("Server exit")
 }
