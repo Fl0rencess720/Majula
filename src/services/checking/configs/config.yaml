@@ -1,6 +1,6 @@
 server:
-  http:
-    addr: :8000
+  grpc:
+    port: 9000
     timeout: 900s
 
 trace:
@@ -18,4 +18,3 @@ chatmodel:
   baseURL: https://api.openai.com/v1
   
 service:
-  checking: Majula.Service.Checking

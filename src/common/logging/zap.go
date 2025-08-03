@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/Fl0rencess720/Majula/src/gateway/consts"
+	"github.com/Fl0rencess720/Majula/src/consts"
 	"github.com/natefinch/lumberjack"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"sync"
 
+	"github.com/Fl0rencess720/Majula/src/services/checking/internal/models"
 	"github.com/cloudwego/eino/compose"
 	"github.com/cloudwego/eino/schema"
 )
@@ -23,12 +24,6 @@ type FactCheck struct {
 	Excerpt   string `json:"excerpt"`
 	Highlight string `json:"highlight"`
 	Note      string `json:"note"`
-}
-
-type CheckingResult struct {
-	Result  string   `json:"result"`
-	Sources []string `json:"sources"`
-	Reason  string   `json:"reason"`
 }
 
 func NewCheckingAgent(ctx context.Context) (*checkingAgent, error) {
@@ -63,7 +58,7 @@ func NewCheckingAgent(ctx context.Context) (*checkingAgent, error) {
 	return &checkingAgent{factRunnable: fr, checkRunnable: cr}, nil
 }
 
-func (a *checkingAgent) Run(ctx context.Context, text string) ([]CheckingResult, error) {
+func (a *checkingAgent) Run(ctx context.Context, text string) ([]models.CheckingResult, error) {
 	factOutput, err := a.factRunnable.Invoke(ctx, map[string]any{
 		"text": text,
 	})
@@ -74,8 +69,8 @@ func (a *checkingAgent) Run(ctx context.Context, text string) ([]CheckingResult,
 	if err := json.Unmarshal([]byte(factOutput.Content), &facts); err != nil {
 		return nil, err
 	}
-	results := []CheckingResult{}
-	resultChan := make(chan CheckingResult, len(facts.FactChecks))
+	results := []models.CheckingResult{}
+	resultChan := make(chan models.CheckingResult, len(facts.FactChecks))
 	var wg sync.WaitGroup
 	for _, factCheck := range facts.FactChecks {
 		wg.Add(1)
@@ -85,14 +80,15 @@ func (a *checkingAgent) Run(ctx context.Context, text string) ([]CheckingResult,
 				"input": factCheck,
 			})
 			if err != nil {
-				resultChan <- CheckingResult{Reason: err.Error()}
+				resultChan <- models.CheckingResult{Reason: err.Error()}
 				return
 			}
-			checkingResult := CheckingResult{}
+			checkingResult := models.CheckingResult{}
 			if err := json.Unmarshal([]byte(checkOutput.Content), &checkingResult); err != nil {
-				resultChan <- CheckingResult{Reason: err.Error()}
+				resultChan <- models.CheckingResult{OriginalText: factCheck.Excerpt, Reason: err.Error()}
 				return
 			}
+			checkingResult.OriginalText = factCheck.Excerpt
 			resultChan <- checkingResult
 		}(factCheck)
 	}

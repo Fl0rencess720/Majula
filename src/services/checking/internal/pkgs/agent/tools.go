@@ -5,7 +5,6 @@ import (
 
 	mcpp "github.com/cloudwego/eino-ext/components/tool/mcp"
 	"github.com/cloudwego/eino/components/tool"
-	"github.com/cloudwego/eino/schema"
 	"github.com/mark3labs/mcp-go/client"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/spf13/viper"
@@ -45,16 +44,4 @@ func getCheckTools(ctx context.Context) ([]tool.BaseTool, error) {
 		return nil, err
 	}
 	return append(tools, bingTools...), nil
-}
-
-func toolsToInfo(ctx context.Context, tools []tool.BaseTool) ([]*schema.ToolInfo, error) {
-	var toolsInfo []*schema.ToolInfo
-	for _, t := range tools {
-		info, err := t.Info(ctx)
-		if err != nil {
-			return nil, err
-		}
-		toolsInfo = append(toolsInfo, info)
-	}
-	return toolsInfo, nil
 }

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package fact_checking;
+option go_package = ".;fact_checking"; 
+
+service FactChecking {
+    rpc Check(CheckRequest) returns (CheckListResponse);
+}
+
+message CheckRequest {
+    string text = 1;
+}
+
+message CheckListResponse {
+    
+    repeated CheckResponse results = 1; 
+}
+
+message CheckResponse {
+    string originalText = 1;
+    string Result = 2;
+    repeated string Sources = 3;
+    string Reason = 4;
+}
