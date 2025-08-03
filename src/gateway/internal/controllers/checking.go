@@ -3,7 +3,7 @@ package controllers
 import (
 	"context"
 
-	"github.com/Fl0rencess720/Majula/internal/pkgs/agent"
+	"github.com/Fl0rencess720/Majula/src/gateway/internal/pkgs/agent"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )

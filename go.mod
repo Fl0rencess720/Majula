@@ -8,7 +8,6 @@ require (
 	github.com/cloudwego/eino-ext/callbacks/cozeloop v0.1.2
 	github.com/cloudwego/eino-ext/components/model/openai v0.0.0-20250801075622-6721dae36fe9
 	github.com/cloudwego/eino-ext/components/tool/mcp v0.0.3
-	github.com/cloudwego/eino-ext/libs/acl/openai v0.0.0-20250731095750-3c46632681ba
 	github.com/coze-dev/cozeloop-go v0.1.8
 	github.com/gin-contrib/cors v1.7.6
 	github.com/gin-contrib/zap v1.1.5
@@ -34,6 +33,7 @@ require (
 	github.com/bytedance/sonic/loader v0.2.4 // indirect
 	github.com/cenkalti/backoff/v5 v5.0.2 // indirect
 	github.com/cloudwego/base64x v0.1.5 // indirect
+	github.com/cloudwego/eino-ext/libs/acl/openai v0.0.0-20250731095750-3c46632681ba // indirect
 	github.com/coze-dev/cozeloop-go/spec v0.1.0 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/evanphx/json-patch v0.5.2 // indirect

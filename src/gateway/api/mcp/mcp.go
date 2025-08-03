@@ -8,8 +8,8 @@ import (
 
 func Init(e *gin.Engine) {
 	mcp := server.New(e, &server.Config{
-		Name:        "My Simple API",
-		Description: "An example API automatically exposed via MCP.",
+		Name:        "Fact Checking API",
+		Description: "Input a text, get the fact checking results",
 		BaseURL:     "http://localhost" + viper.GetString("server.http.addr"),
 	})
 	mcp.Mount("/mcp")

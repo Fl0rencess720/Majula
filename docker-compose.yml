@@ -1,17 +1,17 @@
 services:
   majula:
-    build: .
+    build: ./src/gateway
     container_name: majula
     restart: always
     ports:
       - "8000:8000"
     env_file:
-      - ./configs/.env
+      - ./src/gateway/configs/.env
     environment:
       - TZ=Asia/Shanghai
     volumes:
-      - ./zap.log:/app/zap.log
-      - ./configs/config.yaml:/app/configs/config.yaml
+      - ./src/gateway/zap.log:/app/zap.log
+      - ./src/gateway/configs/config.yaml:/app/configs/config.yaml
     networks:
       - majula_network
     extra_hosts:

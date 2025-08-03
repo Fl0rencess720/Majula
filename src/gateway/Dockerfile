@@ -3,7 +3,7 @@ FROM golang:alpine AS builder
 COPY . /src
 WORKDIR /src
 ENV GOPROXY=https://goproxy.cn 
-RUN go build -o server ./cmd/main.go
+RUN cd ./src/gateway && go build -o server ./cmd/main.go
 
 FROM debian:stable-slim
 
@@ -17,8 +17,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && apt-get autoremove -y && apt-get autoclean -y
 
 RUN mkdir -p /app
-COPY --from=builder /src/server /app
-COPY --from=builder /src/configs /app/configs
+COPY --from=builder /src/src/gateway/server /app
+COPY --from=builder /src/src/gateway/configs /app/configs
 
 WORKDIR /app
 
